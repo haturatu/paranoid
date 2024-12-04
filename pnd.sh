@@ -11,6 +11,8 @@ for cmd in "${commands[@]}"; do
     fi
 done
 
+SMI=$(dmidecode)
+
 # サーバー情報の出力
 echo -e "## CPU情報"
 grep "model name" /proc/cpuinfo | head -1
@@ -25,9 +27,9 @@ echo -e "\n## リッスンポート"
 lsof -i -P -n -l | grep "LISTEN" | awk '{print $1 "," $3 "," $9 "/" $8}' | sort | uniq | column -t -s ","
 
 echo -e "\n## ハードウェア情報"
-dmidecode | grep -A 8 "System Information"
+echo "$SMI" | grep -A 8 "System Information"
 echo
-dmidecode | grep -A 4 "DDR"
+echo "$SMI" | grep -A 4 "DDR"
 
 echo -e "\n## BIOS情報"
-dmidecode | grep -A 27 "BIOS Information"
+echo "$SMI" | grep -A 27 "BIOS Information"
