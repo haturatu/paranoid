@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # 必要なコマンドのリスト
-commands=("grep" "awk" "df" "lsof" "sort" "uniq" "column")
+commands=("grep" "awk" "df" "lsof" "sort" "uniq" "column" "dmidecode")
 
 # コマンドの存在確認
 for cmd in "${commands[@]}"; do
@@ -23,3 +23,11 @@ df -h
 
 echo -e "\n## リッスンポート"
 lsof -i -P -n -l | grep "LISTEN" | awk '{print $1 "," $3 "," $9 "/" $8}' | sort | uniq | column -t -s ","
+
+echo -e "\n## ハードウェア情報"
+dmidecode | grep -A 8 "System Information"
+echo
+dmidecode | grep -A 4 "DDR"
+
+echo -e "\n## BIOS情報"
+dmidecode | grep -A 27 "BIOS Information"
